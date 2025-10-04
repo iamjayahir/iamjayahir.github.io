@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jaykumar Ahir | Interactive Data Analyst Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #0077B6;
+            --secondary-color: #00B4D8;
+            --accent-color: #90E0EF;
+            --text-color: #1A1A1A;
+            --bg-light: #F8F9FA;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-light); color: var(--text-color); }
+        .tab-button {
+            transition: all 0.2s;
+            border-bottom: 2px solid transparent;
+        }
+        .tab-button.active {
+            border-color: var(--primary-color);
+            background-color: white;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        .section-header { border-left: 5px solid var(--primary-color); }
+        .card { transition: transform 0.3s, box-shadow 0.3s; }
+        .card:hover { transform: translateY(-3px); box-shadow: 0 10px 15px rgba(0, 119, 182, 0.1); }
+        .kpi-value { color: var(--primary-color); }
+        .chart-container { position: relative; height: 350px; }
+        @media (min-width: 1024px) {
+            .chart-container { height: 400px; }
+        }
+        /* Styling for code block */
+        .code-block {
+            background-color: #272822; /* Monokai-like dark background */
+            color: #f8f8f2;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            font-family: monospace;
+            white-space: pre;
+        }
+        /* Custom styles for reliable copy message */
+        #copy-message {
+            visibility: hidden; /* Start hidden */
+            opacity: 0;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+        /* AI Modal Response Formatting */
+        #modal-response h3 { font-size: 1.25rem; font-weight: 600; margin-top: 1rem; margin-bottom: 0.5rem; }
+        #modal-response p { line-height: 1.6; margin-bottom: 1rem; }
+        #modal-response ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; }
+        #modal-response li { margin-bottom: 0.5rem; }
+        #modal-response strong { font-weight: 600; }
+        #modal-response code { background-color: #e5e7eb; color: #1f2937; padding: 0.2rem 0.4rem; border-radius: 0.25rem; font-size: 0.9em; }
+    </style>
+</head>
+<body class="min-h-screen" oncontextmenu="return false;">
+
+    <!-- Global Styles Setup -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-blue': '#0077B6',
+                        'secondary-cyan': '#00B4D8',
+                        'accent-light': '#90E0EF',
+                    },
+                }
+            }
+        }
+    </script>
+
+    <div id="app" class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
+
+        <!-- Header and Bio -->
+        <header class="text-center py-12 bg-white rounded-xl shadow-lg mb-10">
+            <h1 class="text-5xl font-extrabold text-primary-blue">Jaykumar Ahir</h1>
+            <p class="text-xl text-gray-600 mt-2">Data Analyst & Project Coordinator | BI & Process Improvement Specialist</p>
+            <div class="mt-4 space-x-4 text-gray-500">
+                <!-- UPDATED CONTACT LINKS: Using mailto: with a subject for robust client handling. -->
+                <a 
+                    href="mailto:jayahir1595@outlook.com?subject=Inquiry%20from%20Your%20Data%20Analysis%20Portfolio" 
+                    onclick="handleEmailClick(event)" 
+                    target="_blank"
+                    class="hover:text-primary-blue transition relative group"
+                >
+                    <i class="fas fa-envelope mr-1"></i> Email
+                    <span id="copy-message" class="absolute bg-gray-700 text-white text-xs px-2 py-1 rounded-md -bottom-8 left-1/2 transform -translate-x-1/2 whitespace-nowrap">
+                        Copied!
+                    </span>
+                </a>
+                <a href="https://www.linkedin.com/in/iamjayahir" target="_blank" class="hover:text-primary-blue transition"><i class="fab fa-linkedin mr-1"></i> LinkedIn</a>
+                <a href="https://github.com/iamjayahir" target="_blank" class="hover:text-primary-blue transition"><i class="fab fa-github mr-1"></i> GitHub</a>
+            </div>
+        </header>
+
+        <!-- Key Projects & Technical Skills Section -->
+        <section id="skills-projects" class="mb-12">
+            <h2 class="text-3xl font-bold section-header pl-4 mb-6">Key Projects & Technical Skills</h2>
+            <div class="grid lg:grid-cols-3 gap-6">
+                <!-- Project Highlight -->
+                <div class="lg:col-span-2 bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-2xl font-semibold text-primary-blue mb-4">Project Highlight: End-to-End SQL BI Pipeline</h3>
+                    <p class="text-gray-700 mb-4">
+                        This project showcases a complete data analytics pipeline, from raw data to actionable business intelligence. It involved designing and implementing a <strong>Star Schema</strong> data warehouse to process sales data. Using advanced SQL techniques—including <strong>CTEs, Window Functions, and complex joins</strong>—I developed automated reports to analyze customer behavior and product performance. 
+                    </p>
+                    <p class="font-semibold text-gray-800">Key business insights derived from this project include:</p>
+                    <ul class="list-disc list-inside ml-4 text-gray-700 mt-2 space-y-1">
+                        <li><strong>Customer Segmentation:</strong> Identified high-value 'VIP' customers, enabling targeted marketing campaigns to improve retention and lifetime value.</li>
+                        <li><strong>Product Performance Analysis:</strong> Categorized products into performance tiers ('High Performer', 'Mid-Range'), providing a data-driven basis for inventory management and sales strategy.</li>
+                        <li><strong>Trend & Growth Velocity:</strong> Analyzed sales trends over time to understand business velocity, seasonality, and support accurate forecasting.</li>
+                    </ul>
+                    <p class="mt-4 text-sm text-gray-600">
+                        The interactive dashboard and code explorer below provide a live demonstration of this project's outcomes.
+                    </p>
+                </div>
+
+                <!-- Skills and Certifications -->
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-2xl font-semibold text-primary-blue mb-4">Core Competencies</h3>
+
+                    <p class="font-semibold mt-4">Technical Skills</p>
+                    <div class="flex flex-wrap gap-2 text-sm mt-1">
+                        <span class="bg-accent-light px-3 py-1 rounded-full">SQL (Advanced)</span>
+                        <span class="bg-accent-light px-3 py-1 rounded-full">Python (Pandas)</span>
+                        <span class="bg-accent-light px-3 py-1 rounded-full">Power BI</span>
+                        <span class="bg-accent-light px-3 py-1 rounded-full">Tableau</span>
+                        <span class="bg-accent-light px-3 py-1 rounded-full">Data Modeling</span>
+                        <span class="bg-accent-light px-3 py-1 rounded-full">Star Schema</span>
+                        <span class="bg-accent-light px-3 py-1 rounded-full">Window Functions</span>
+                        <span class="bg-accent-light px-3 py-1 rounded-full">CTEs</span>
+                        <span class="bg-accent-light px-3 py-1 rounded-full">Agile/Scrum</span>
+                        <span class="bg-accent-light px-3 py-1 rounded-full">Jira</span>
+                    </div>
+                    
+                    <p class="font-semibold mt-6">Certifications</p>
+                    <ul class="space-y-3 text-sm mt-2">
+                        <li>
+                            <p class="font-bold"><i class="fas fa-certificate text-secondary-cyan mr-2"></i>Project Management Professional (PMP)</p>
+                            <p class="text-xs text-gray-500 pl-6">– Project Management Institute</p>
+                        </li>
+                        <li>
+                            <p class="font-bold"><i class="fas fa-certificate text-secondary-cyan mr-2"></i>Certified Scrum Master (CSM)</p>
+                            <p class="text-xs text-gray-500 pl-6">– Scrum Alliance</p>
+                        </li>
+                        <li>
+                            <p class="font-bold"><i class="fas fa-certificate text-secondary-cyan mr-2"></i>Google Data Analytics Professional Certificate</p>
+                        </li>
+                        <li>
+                            <p class="font-bold"><i class="fas fa-certificate text-secondary-cyan mr-2"></i>Google Project Management Professional Certificate</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="mb-12">
+            <h2 class="text-3xl font-bold section-header pl-4 mb-6">Business Intelligence Dashboard</h2>
+
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="mb-12">
+            <div class="flex justify-between items-center mb-6 flex-wrap gap-4">
+                <h2 class="text-3xl font-bold section-header pl-4">Business Intelligence Dashboard</h2>
+                <button onclick="getDashboardInsights()" class="bg-gradient-to-r from-primary-blue to-secondary-cyan text-white font-bold py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition transform hover:-translate-y-0.5">
+                    ✨ Get AI-Powered Insights
+                </button>
+            </div>
+            <p class="text-gray-600 mb-6">Interactive view of key metrics and insights derived from the Advanced SQL Data Analysis Project, focusing on sales performance, customer value, and product contribution.</p>
+
+            <!-- KPIs -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
+                <div class="card bg-white p-5 rounded-lg shadow-md text-center">
+                    <i class="fas fa-dollar-sign text-3xl kpi-value mb-2"></i>
+                    <p class="text-3xl font-bold kpi-value">$12.5M</p>
+                    <p class="text-sm text-gray-500">Total Revenue</p>
+                </div>
+                <div class="card bg-white p-5 rounded-lg shadow-md text-center">
+                    <i class="fas fa-users text-3xl kpi-value mb-2"></i>
+                    <p class="text-3xl font-bold kpi-value">18,450</p>
+                    <p class="text-sm text-gray-500">Total Customers</p>
+                </div>
+                <div class="card bg-white p-5 rounded-lg shadow-md text-center">
+                    <i class="fas fa-shopping-cart text-3xl kpi-value mb-2"></i>
+                    <p class="text-3xl font-bold kpi-value">$2,210</p>
+                    <p class="text-sm text-gray-500">Avg. Order Value (AOV)</p>
+                </div>
+                <div class="card bg-white p-5 rounded-lg shadow-md text-center">
+                    <i class="fas fa-chart-line text-3xl kpi-value mb-2"></i>
+                    <p class="text-3xl font-bold kpi-value">+20.5%</p>
+                    <p class="text-sm text-gray-500">YOY Growth</p>
+                </div>
+            </div>
+
+            <!-- Charts -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Chart 1: Revenue Trend (Line Graph) -->
+                <div class="lg:col-span-2 bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold mb-3">Monthly Revenue Trend Analysis</h3>
+                    <p class="text-sm text-gray-500 mb-4">Tracking sales volume over time to identify seasonality and growth velocity, crucial for accurate forecasting.</p>
+                    <div class="chart-container">
+                        <canvas id="revenueTrendChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Chart 2: Customer Segmentation (Bar Graph) -->
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold mb-3">Customer Segmentation by Revenue</h3>
+                    <p class="text-sm text-gray-500 mb-4">Segmentation via SQL CASE statements reveals where retention efforts should focus.</p>
+                    <div class="chart-container">
+                        <canvas id="customerSegmentChart"></canvas>
+                    </div>
+                </div>
+                
+                <!-- Chart 3: Top Product Category (Bar/Custom) -->
+                <div class="lg:col-span-3 bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold mb-3">Top Product Performance (Category Breakdown)</h3>
+                    <p class="text-sm text-gray-500 mb-4">Analysis from the Product Report shows that 'Bikes' generate the highest revenue, driving inventory and marketing decisions.</p>
+                    <div class="chart-container" style="height: 300px;">
+                        <canvas id="productCategoryChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Code Explorer Section -->
+        <section id="code-explorer" class="mb-12">
+            <h2 class="text-3xl font-bold section-header pl-4 mb-6">SQL Project Code Explorer</h2>
+            <div class="bg-white rounded-lg shadow-md">
+                <!-- Tabs -->
+                <div class="flex border-b border-gray-200">
+                    <button id="tab-schema" onclick="showTab('schema')" class="tab-button active px-6 py-3 text-sm">Create Schema</button>
+                    <button id="tab-customer" onclick="showTab('customer')" class="tab-button px-6 py-3 text-sm">Customer Report</button>
+                    <button id="tab-product" onclick="showTab('product')" class="tab-button px-6 py-3 text-sm">Product Report</button>
+                    <button id="tab-advance" onclick="showTab('advance')" class="tab-button px-6 py-3 text-sm">Advanced Analysis</button>
+                </div>
+                
+                <!-- Tab Content -->
+                <div id="content-schema" class="p-6">
+                    <div class="flex justify-between items-start mb-3">
+                        <p class="text-gray-600 max-w-prose">Database initialization, defining **Star Schema** with dimension (`dim_customers`, `dim_products`) and fact (`fact_sales`) tables, including foreign key constraints.</p>
+                        <button onclick="explainQuery(this)" class="bg-gray-700 hover:bg-gray-600 text-white text-xs font-bold py-2 px-3 rounded-lg transition whitespace-nowrap ml-4 shrink-0">✨ Explain this Query</button>
+                    </div>
+                    <pre class="code-block">
+CREATE DATABASE DataWarehouseAnalytics;
+USE DataWarehouseAnalytics;
+
+CREATE TABLE dim_customers(
+	customer_key INT PRIMARY KEY,
+	customer_id INT,
+	country NVARCHAR(50),
+	gender NVARCHAR(50),
+	birthdate DATE
+);
+
+CREATE TABLE dim_products(
+	product_key INT PRIMARY KEY,
+	product_name NVARCHAR(50),
+	category NVARCHAR(50),
+	subcategory NVARCHAR(50),
+	cost INT
+);
+
+CREATE TABLE fact_sales(
+	order_number NVARCHAR(50),
+	product_key INT,
+	customer_key INT,
+	order_date DATE,
+	sales_amount INT,
+	quantity TINYINT,
+	FOREIGN KEY (customer_key) REFERENCES dim_customers(customer_key),
+	FOREIGN KEY (product_key) REFERENCES dim_products(product_key)
+);
+                    </pre>
+                </div>
+
+                <div id="content-customer" class="p-6 hidden">
+                    <div class="flex justify-between items-start mb-3">
+                        <p class="text-gray-600 max-w-prose">Comprehensive query to segment customers into **VIP, Regular, and New** using a CASE statement, and calculate key metrics like Average Order Value and lifespan (used to create the `report_customers` view).</p>
+                        <button onclick="explainQuery(this)" class="bg-gray-700 hover:bg-gray-600 text-white text-xs font-bold py-2 px-3 rounded-lg transition whitespace-nowrap ml-4 shrink-0">✨ Explain this Query</button>
+                    </div>
+                    <pre class="code-block">
+CREATE VIEW report_customers AS
+WITH base_query AS (
+    SELECT 
+        f.order_date, f.sales_amount, f.quantity, c.customer_key,
+        ROUND((DATEDIFF(CURRENT_DATE(), c.birthdate) / 365 ),0) AS age
+    FROM fact_sales f 
+    LEFT JOIN dim_customers c ON c.customer_key = f.customer_key
+),
+customer_aggregation AS (
+    SELECT
+        customer_key,
+        SUM(sales_amount) AS total_sales,
+        COUNT(DISTINCT order_number) AS total_orders,
+        ROUND(((DATEDIFF(MAX(order_date), MIN(order_date))/ 365) * 12),0) AS lifespan_months
+    FROM base_query
+    GROUP BY customer_key
+)
+SELECT 
+    ca.*,
+    CASE
+        WHEN lifespan_months >= 12 AND total_sales > 5000 THEN 'VIP'
+        WHEN lifespan_months >= 12 AND total_sales <= 5000 THEN 'Regular'
+        ELSE 'New'
+    END AS customer_segment,
+    ROUND(total_sales / NULLIF(total_orders, 0), 0) AS avg_order_value
+FROM customer_aggregation ca;
+                    </pre>
+                </div>
+                
+                <div id="content-product" class="p-6 hidden">
+                    <div class="flex justify-between items-start mb-3">
+                        <p class="text-gray-600 max-w-prose">Logic to classify products into **High-Performer, Mid-Range, or Low-Performer** based on `total_sales` and calculate metrics like average monthly revenue (used to create the `product_report` view).</p>
+                        <button onclick="explainQuery(this)" class="bg-gray-700 hover:bg-gray-600 text-white text-xs font-bold py-2 px-3 rounded-lg transition whitespace-nowrap ml-4 shrink-0">✨ Explain this Query</button>
+                    </div>
+                    <pre class="code-block">
+CREATE VIEW product_report AS
+WITH base_query AS (
+    SELECT 
+        f.order_date, f.sales_amount, f.quantity, p.product_key, p.product_name, p.category, p.cost
+    FROM fact_sales f 
+    LEFT JOIN dim_products p ON p.product_key = f.product_key
+), 
+product_aggregations AS (
+    SELECT
+        product_key,
+        product_name,
+        category,
+        cost,
+        SUM(sales_amount) AS total_sales,
+        ROUND((DATEDIFF(MAX(order_date),MIN(order_date)) / 365) * 12,0) AS lifespan_month
+    FROM base_query
+    GROUP BY product_key, product_name, category, cost
+)
+SELECT
+    pa.*,
+    CASE
+        WHEN total_sales > 50000 THEN 'High Performer'
+        WHEN total_sales >= 10000 THEN 'Mid-Range'
+        ELSE 'Low Performer'
+    END AS product_segment,
+    ROUND(total_sales / NULLIF(lifespan_month, 0), 1) AS avg_monthly_revenue
+FROM product_aggregations pa;
+                    </pre>
+                </div>
+
+                <div id="content-advance" class="p-6 hidden">
+                    <div class="flex justify-between items-start mb-3">
+                        <p class="text-gray-600 max-w-prose">Example of **Window Functions (SUM() OVER)** and **CTEs** used for cumulative analysis, showing running totals and moving averages to evaluate business growth velocity.</p>
+                        <button onclick="explainQuery(this)" class="bg-gray-700 hover:bg-gray-600 text-white text-xs font-bold py-2 px-3 rounded-lg transition whitespace-nowrap ml-4 shrink-0">✨ Explain this Query</button>
+                    </div>
+                    <pre class="code-block">
+WITH monthly_sales AS (
+    SELECT
+        YEAR(order_date) AS order_year,
+        MONTH(order_date) AS order_month,
+        SUM(sales_amount) AS total_sales,
+        AVG(price) AS avg_price
+    FROM fact_sales
+    GROUP BY 1, 2
+)
+SELECT 
+    order_year,
+    order_month,
+    total_sales,
+    -- Calculate the running total of sales over time
+    SUM(total_sales) OVER (ORDER BY order_year, order_month) AS running_total_sales,
+    -- Calculate the 3-month moving average of sales
+    AVG(total_sales) OVER (
+        ORDER BY order_year, order_month
+        ROWS BETWEEN 2 PRECEDING AND CURRENT ROW
+    ) AS moving_avg_sales
+FROM monthly_sales
+ORDER BY order_year, order_month;
+                    </pre>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer class="text-center py-6 border-t mt-8 text-gray-500 text-sm">
+        <p>Portfolio built using HTML, Tailwind CSS, and Chart.js. Enhanced with AI features powered by the Gemini API.</p>
+    </footer>
+
+    <!-- Gemini AI Modal -->
+    <div id="ai-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-white rounded-lg shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col">
+            <div class="flex justify-between items-center p-4 border-b">
+                <h3 id="modal-title" class="text-xl font-semibold text-primary-blue">AI-Powered Response</h3>
+                <button onclick="closeModal()" class="text-gray-500 hover:text-gray-800 text-2xl">&times;</button>
+            </div>
+            <div class="p-6 overflow-y-auto">
+                <!-- Loading Spinner -->
+                <div id="modal-loader" class="text-center py-8">
+                    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-blue mx-auto"></div>
+                    <p class="mt-4 text-gray-600">Generating response...</p>
+                </div>
+                <!-- AI Response Content -->
+                <div id="modal-response"></div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // --- Dashboard Initialization and Data ---
+        
+        // Mock data based on project context
+        const MOCK_DATA = {
+            monthlyRevenue: [720, 780, 850, 910, 880, 950, 1020, 1100, 1050, 1150, 1200, 1300], // in thousands
+            customerSegments: [
+                { name: 'VIP (High Value)', count: 20 },
+                { name: 'Regular', count: 60 },
+                { name: 'New (First Year)', count: 20 }
+            ],
+            productCategories: [
+                { category: 'Bikes', revenue: 6500 }, // in thousands
+                { category: 'Accessories', revenue: 3500 },
+                { category: 'Clothing', revenue: 2000 }
+            ]
+        };
+
+        const segmentColors = ['#0077B6', '#00B4D8', '#90E0EF'];
+        
+        // Function to handle chart label wrapping (16 character limit)
+        const wrapLabel = (label) => {
+            if (label.length <= 16) return label;
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = '';
+
+            words.forEach(word => {
+                if ((currentLine + ' ' + word).length <= 16) {
+                    currentLine += (currentLine === '' ? '' : ' ') + word;
+                } else {
+                    lines.push(currentLine);
+                    currentLine = word;
+                }
+            });
+            lines.push(currentLine);
+            return lines;
+        };
+
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+                return label.join(' ');
+            }
+            return label;
+        };
+
+        const commonOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: tooltipTitleCallback
+                    }
+                }
+            }
+        };
+
+        // 1. Revenue Trend Chart (Line)
+        const renderRevenueTrendChart = () => {
+            const ctx = document.getElementById('revenueTrendChart').getContext('2d');
+            const monthLabels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: monthLabels,
+                    datasets: [{
+                        label: 'Total Revenue (in Thousands)',
+                        data: MOCK_DATA.monthlyRevenue,
+                        borderColor: segmentColors[0],
+                        backgroundColor: segmentColors[0] + '40', // light fill
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    ...commonOptions,
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            title: { display: true, text: 'Revenue (K)' },
+                            ticks: { callback: (value) => '$' + value }
+                        }
+                    },
+                    plugins: {
+                        ...commonOptions.plugins,
+                        legend: { position: 'top' }
+                    }
+                }
+            });
+        };
+
+        // 2. Customer Segmentation Chart (Bar - to show comparison)
+        const renderCustomerSegmentChart = () => {
+            const ctx = document.getElementById('customerSegmentChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: MOCK_DATA.customerSegments.map(s => wrapLabel(s.name)),
+                    datasets: [{
+                        label: 'Customer Count (%)',
+                        data: MOCK_DATA.customerSegments.map(s => s.count),
+                        backgroundColor: segmentColors,
+                        borderColor: '#ffffff',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    ...commonOptions,
+                    indexAxis: 'y',
+                    scales: {
+                        x: {
+                            title: { display: true, text: 'Percentage of Total Customers' },
+                            max: 100
+                        }
+                    },
+                    plugins: {
+                        ...commonOptions.plugins,
+                        legend: { display: false }
+                    }
+                }
+            });
+        };
+
+        // 3. Product Category Chart (Horizontal Bar)
+        const renderProductCategoryChart = () => {
+            const ctx = document.getElementById('productCategoryChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: MOCK_DATA.productCategories.map(p => wrapLabel(p.category)),
+                    datasets: [{
+                        label: 'Revenue (in Thousands)',
+                        data: MOCK_DATA.productCategories.map(p => p.revenue),
+                        backgroundColor: [segmentColors[0], segmentColors[1], segmentColors[2]],
+                    }]
+                },
+                options: {
+                    ...commonOptions,
+                    indexAxis: 'y',
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            title: { display: true, text: 'Revenue (K)' },
+                            ticks: { callback: (value) => '$' + value + 'K' }
+                        }
+                    },
+                    plugins: {
+                        ...commonOptions.plugins,
+                        legend: { display: false }
+                    }
+                }
+            });
+        };
+        
+        // --- Updated JavaScript function for Copy-to-Clipboard and Email redirect ---
+        window.handleEmailClick = (event) => {
+            const emailAddress = 'jayahir1595@outlook.com';
+            const messageElement = document.getElementById('copy-message');
+
+            const tempInput = document.createElement('input');
+            tempInput.value = emailAddress;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            
+            try {
+                document.execCommand('copy');
+                messageElement.style.visibility = 'visible';
+                messageElement.style.opacity = '1';
+                
+                setTimeout(() => {
+                    messageElement.style.opacity = '0';
+                    setTimeout(() => messageElement.style.visibility = 'hidden', 300);
+                }, 1500);
+
+            } catch (err) {
+                console.error('Could not copy text: ', err);
+            } finally {
+                document.body.removeChild(tempInput);
+            }
+            return true; 
+        };
+
+        // --- Tab Logic ---
+        window.showTab = (tabName) => {
+            const contents = ['schema', 'customer', 'product', 'advance'];
+            contents.forEach(id => {
+                document.getElementById('content-' + id).classList.add('hidden');
+                document.getElementById('tab-' + id).classList.remove('active');
+            });
+
+            document.getElementById('content-' + tabName).classList.remove('hidden');
+            document.getElementById('tab-' + tabName).classList.add('active');
+        };
+
+        // --- Gemini API Integration ---
+        const modal = document.getElementById('ai-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalLoader = document.getElementById('modal-loader');
+        const modalResponse = document.getElementById('modal-response');
+
+        function showModal(title) {
+            modalTitle.textContent = title;
+            modal.classList.remove('hidden');
+            modalLoader.classList.remove('hidden');
+            modalResponse.innerHTML = ''; // Clear previous response
+        }
+
+        function closeModal() {
+            modal.classList.add('hidden');
+        }
+        
+        async function generateGeminiContent(userQuery, systemPrompt = "", retries = 3, delay = 1000) {
+            const apiKey = "" // This is intentionally left empty.
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+            
+            const payload = { contents: [{ parts: [{ text: userQuery }] }] };
+            if (systemPrompt) {
+                payload.systemInstruction = { parts: [{ text: systemPrompt }] };
+            }
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    if (response.status === 429) { throw new Error('Rate limited'); }
+                    throw new Error(`API request failed with status ${response.status}: ${await response.text()}`);
+                }
+
+                const result = await response.json();
+                const candidate = result.candidates?.[0];
+
+                if (candidate && candidate.content?.parts?.[0]?.text) {
+                    return candidate.content.parts[0].text;
+                } else {
+                    console.error("Invalid response structure:", result);
+                    throw new Error("Invalid response structure from API.");
+                }
+
+            } catch (error) {
+                if (retries > 1) {
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    return generateGeminiContent(userQuery, systemPrompt, retries - 1, delay * 2); // Exponential backoff
+                } else {
+                    console.error("API call failed after multiple retries.", error);
+                    return "Sorry, I couldn't generate a response at this moment. Please try again later.";
+                }
+            }
+        }
+
+        function displayResponse(responseText) {
+            let html = responseText
+                .replace(/### (.*$)/gim, '<h3>$1</h3>')
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/^\* (.*$)/gim, '<li>$1</li>')
+                .replace(/^\d+\. (.*$)/gim, '<li>$1</li>')
+                .replace(/`([^`]+)`/g, '<code>$1</code>')
+                .replace(/\n/g, '<br>');
+
+            html = html.replace(/(<br>)*(<li>.*?<\/li>)/g, '$2');
+            html = html.replace(/(<li>.*?<\/li>)+/gs, (match) => `<ul>${match}</ul>`).replace(/<\/ul>\s*<br\s*\/?>\s*<ul>/gs, '');
+
+            modalLoader.classList.add('hidden');
+            modalResponse.innerHTML = html;
+        }
+
+        async function getDashboardInsights() {
+            showModal('✨ AI-Powered Insights');
+            const dashboardContext = `
+                - Total Revenue: $12.5M
+                - YOY Growth: +20.5%
+                - Total Customers: 18,450
+                - AOV: $2,210
+                - Top Product Category: 'Bikes'
+                - Customer Segmentation: 20% VIPs, 60% Regulars, 20% New.
+            `;
+            const systemPrompt = "You are a world-class business strategist and data analyst. Provide concise, actionable advice based on dashboard metrics. Use a professional but encouraging tone. Format your response using markdown with headers and bullet points.";
+            const userQuery = `Based on the following summary, provide: 1. Three key, actionable insights. 2. Two potential risks. 3. Three concrete next steps for the analysis team. ${dashboardContext}`;
+            const response = await generateGeminiContent(userQuery, systemPrompt);
+            displayResponse(response);
+        }
+
+        async function explainQuery(buttonElement) {
+            const queryContainer = buttonElement.closest('div').nextElementSibling;
+            const sqlCode = queryContainer.textContent.trim();
+            showModal('✨ AI-Powered SQL Explanation');
+            const systemPrompt = "You are an expert SQL developer who excels at explaining complex queries in simple terms for a junior analyst. Structure your explanation with 'Purpose', 'Key Components', and 'Output' headings.";
+            const userQuery = `Explain this SQL query: \`\`\`sql\n${sqlCode}\n\`\`\``;
+            const response = await generateGeminiContent(userQuery, systemPrompt);
+            displayResponse(response);
+        }
+
+
+        // --- Initialize App ---
+        document.addEventListener('DOMContentLoaded', () => {
+            renderRevenueTrendChart();
+            renderCustomerSegmentChart();
+            renderProductCategoryChart();
+
+            // --- Anti-Copying Measures ---
+            // Disable common copy/view-source keyboard shortcuts. Right-click is disabled in the body tag.
+            document.addEventListener('keydown', event => {
+                if (event.ctrlKey && ['c', 'u', 's'].includes(event.key.toLowerCase())) {
+                    event.preventDefault();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
