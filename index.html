@@ -27,6 +27,14 @@
             color: var(--primary-color);
             font-weight: 600;
         }
+        .year-filter-button {
+            transition: all 0.2s;
+        }
+        .year-filter-button.active {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+        }
         .section-header { border-left: 5px solid var(--primary-color); }
         .card { transition: transform 0.3s, box-shadow 0.3s; }
         .card:hover { transform: translateY(-3px); box-shadow: 0 10px 15px rgba(0, 119, 182, 0.1); }
@@ -51,13 +59,28 @@
             opacity: 0;
             transition: opacity 0.3s, visibility 0.3s;
         }
-        /* AI Modal Response Formatting */
-        #modal-response h3 { font-size: 1.25rem; font-weight: 600; margin-top: 1rem; margin-bottom: 0.5rem; }
-        #modal-response p { line-height: 1.6; margin-bottom: 1rem; }
-        #modal-response ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; }
-        #modal-response li { margin-bottom: 0.5rem; }
-        #modal-response strong { font-weight: 600; }
-        #modal-response code { background-color: #e5e7eb; color: #1f2937; padding: 0.2rem 0.4rem; border-radius: 0.25rem; font-size: 0.9em; }
+        /* Insight button style */
+        .insight-button {
+            background-color: #e0f7fa;
+            color: var(--primary-color);
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        .insight-button:hover {
+            background-color: var(--secondary-color);
+            color: white;
+            transform: scale(1.1);
+        }
+        /* Modal Styles */
+        #insight-modal-overlay {
+            transition: opacity 0.3s;
+        }
+        #insight-modal-content {
+            transition: transform 0.3s;
+        }
     </style>
 </head>
 <body class="min-h-screen" oncontextmenu="return false;">
@@ -84,7 +107,6 @@
             <h1 class="text-5xl font-extrabold text-primary-blue">Jaykumar Ahir</h1>
             <p class="text-xl text-gray-600 mt-2">Data Analyst & Project Coordinator | BI & Process Improvement Specialist</p>
             <div class="mt-4 space-x-4 text-gray-500">
-                <!-- UPDATED CONTACT LINKS: Using mailto: with a subject for robust client handling. -->
                 <a 
                     href="mailto:jayahir1595@outlook.com?subject=Inquiry%20from%20Your%20Data%20Analysis%20Portfolio" 
                     onclick="handleEmailClick(event)" 
@@ -103,7 +125,7 @@
 
         <!-- Key Projects & Technical Skills Section -->
         <section id="skills-projects" class="mb-12">
-            <h2 class="text-3xl font-bold section-header pl-4 mb-6">Key Projects & Technical Skills</h2>
+            <h2 class="text-3xl font-bold section-header pl-4 mb-6">Key Projects & Business Impact</h2>
             <div class="grid lg:grid-cols-3 gap-6">
                 <!-- Project Highlight -->
                 <div class="lg:col-span-2 bg-white p-6 rounded-lg shadow-md">
@@ -122,60 +144,42 @@
                     </p>
                 </div>
 
-                <!-- Skills and Certifications -->
+                <!-- Business Problem & Solution -->
                 <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h3 class="text-2xl font-semibold text-primary-blue mb-4">Core Competencies</h3>
-
-                    <p class="font-semibold mt-4">Technical Skills</p>
-                    <div class="flex flex-wrap gap-2 text-sm mt-1">
-                        <span class="bg-accent-light px-3 py-1 rounded-full">SQL (Advanced)</span>
-                        <span class="bg-accent-light px-3 py-1 rounded-full">Python (Pandas)</span>
-                        <span class="bg-accent-light px-3 py-1 rounded-full">Power BI</span>
-                        <span class="bg-accent-light px-3 py-1 rounded-full">Tableau</span>
-                        <span class="bg-accent-light px-3 py-1 rounded-full">Data Modeling</span>
-                        <span class="bg-accent-light px-3 py-1 rounded-full">Star Schema</span>
-                        <span class="bg-accent-light px-3 py-1 rounded-full">Window Functions</span>
-                        <span class="bg-accent-light px-3 py-1 rounded-full">CTEs</span>
-                        <span class="bg-accent-light px-3 py-1 rounded-full">Agile/Scrum</span>
-                        <span class="bg-accent-light px-3 py-1 rounded-full">Jira</span>
-                    </div>
+                    <h3 class="text-2xl font-semibold text-primary-blue mb-4">From Data to Decisions</h3>
                     
-                    <p class="font-semibold mt-6">Certifications</p>
-                    <ul class="space-y-3 text-sm mt-2">
-                        <li>
-                            <p class="font-bold"><i class="fas fa-certificate text-secondary-cyan mr-2"></i>Project Management Professional (PMP)</p>
-                            <p class="text-xs text-gray-500 pl-6">– Project Management Institute</p>
-                        </li>
-                        <li>
-                            <p class="font-bold"><i class="fas fa-certificate text-secondary-cyan mr-2"></i>Certified Scrum Master (CSM)</p>
-                            <p class="text-xs text-gray-500 pl-6">– Scrum Alliance</p>
-                        </li>
-                        <li>
-                            <p class="font-bold"><i class="fas fa-certificate text-secondary-cyan mr-2"></i>Google Data Analytics Professional Certificate</p>
-                        </li>
-                        <li>
-                            <p class="font-bold"><i class="fas fa-certificate text-secondary-cyan mr-2"></i>Google Project Management Professional Certificate</p>
-                        </li>
-                    </ul>
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="font-bold text-gray-800">The Business Challenge:</h4>
+                            <p class="text-sm text-gray-600 mt-1">The company faced stagnant revenue growth and needed to identify actionable strategies to enhance customer lifetime value and improve profitability without large-scale marketing expenditure.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="font-bold text-gray-800">My Analytical Approach:</h4>
+                            <p class="text-sm text-gray-600 mt-1">Using the SQL data pipeline, I segmented customers and analyzed purchasing patterns. The analysis revealed two critical findings:</p>
+                            <ul class="list-disc list-inside ml-4 text-sm text-gray-600 mt-2 space-y-1">
+                                <li>A high-value 'VIP' customer segment drove 60% of revenue but was shrinking.</li>
+                                <li>High-margin 'Accessory' products were rarely purchased with core 'Bike' products.</li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-bold text-gray-800">The Solution & Impact:</h4>
+                            <p class="text-sm text-gray-600 mt-1">Based on these insights, I recommended a two-part strategy:</p>
+                            <ol class="list-decimal list-inside ml-4 text-sm text-gray-600 mt-2 space-y-1">
+                                <li>Launch a targeted loyalty program for VIPs to increase retention.</li>
+                                <li>Implement a "frequently bought together" feature to cross-sell accessories.</li>
+                            </ol>
+                            <p class="text-sm text-gray-600 mt-2 font-semibold">This data-driven approach provided a clear roadmap to boost both customer loyalty and profit margins.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- Dashboard Section -->
         <section id="dashboard" class="mb-12">
-            <h2 class="text-3xl font-bold section-header pl-4 mb-6">Business Intelligence Dashboard</h2>
-
-        <!-- Dashboard Section -->
-        <section id="dashboard" class="mb-12">
-            <div class="flex justify-between items-center mb-6 flex-wrap gap-4">
-                <h2 class="text-3xl font-bold section-header pl-4">Business Intelligence Dashboard</h2>
-                <button onclick="getDashboardInsights()" class="bg-gradient-to-r from-primary-blue to-secondary-cyan text-white font-bold py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition transform hover:-translate-y-0.5">
-                    ✨ Get AI-Powered Insights
-                </button>
-            </div>
-            <p class="text-gray-600 mb-6">Interactive view of key metrics and insights derived from the Advanced SQL Data Analysis Project, focusing on sales performance, customer value, and product contribution.</p>
-
-            <!-- KPIs -->
+             <!-- KPIs -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
                 <div class="card bg-white p-5 rounded-lg shadow-md text-center">
                     <i class="fas fa-dollar-sign text-3xl kpi-value mb-2"></i>
@@ -203,7 +207,17 @@
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <!-- Chart 1: Revenue Trend (Line Graph) -->
                 <div class="lg:col-span-2 bg-white p-6 rounded-lg shadow-md">
-                    <h3 class="text-xl font-semibold mb-3">Monthly Revenue Trend Analysis</h3>
+                    <div class="flex justify-between items-center mb-3">
+                        <div class="flex items-center gap-3">
+                            <h3 class="text-xl font-semibold">Monthly Revenue Trend Analysis</h3>
+                            <button class="insight-button" data-insight="revenue">
+                                <i class="fas fa-lightbulb"></i>
+                            </button>
+                        </div>
+                         <div id="year-filter" class="flex border border-gray-200 rounded-lg overflow-hidden">
+                            <!-- Year filter buttons will be inserted here by JS -->
+                        </div>
+                    </div>
                     <p class="text-sm text-gray-500 mb-4">Tracking sales volume over time to identify seasonality and growth velocity, crucial for accurate forecasting.</p>
                     <div class="chart-container">
                         <canvas id="revenueTrendChart"></canvas>
@@ -212,7 +226,12 @@
 
                 <!-- Chart 2: Customer Segmentation (Bar Graph) -->
                 <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h3 class="text-xl font-semibold mb-3">Customer Segmentation by Revenue</h3>
+                    <div class="flex items-center gap-3 mb-3">
+                         <h3 class="text-xl font-semibold">Customer Segmentation</h3>
+                         <button class="insight-button" data-insight="customer">
+                            <i class="fas fa-lightbulb"></i>
+                        </button>
+                    </div>
                     <p class="text-sm text-gray-500 mb-4">Segmentation via SQL CASE statements reveals where retention efforts should focus.</p>
                     <div class="chart-container">
                         <canvas id="customerSegmentChart"></canvas>
@@ -221,7 +240,12 @@
                 
                 <!-- Chart 3: Top Product Category (Bar/Custom) -->
                 <div class="lg:col-span-3 bg-white p-6 rounded-lg shadow-md">
-                    <h3 class="text-xl font-semibold mb-3">Top Product Performance (Category Breakdown)</h3>
+                    <div class="flex items-center gap-3 mb-3">
+                        <h3 class="text-xl font-semibold">Top Product Performance</h3>
+                         <button class="insight-button" data-insight="product">
+                            <i class="fas fa-lightbulb"></i>
+                        </button>
+                    </div>
                     <p class="text-sm text-gray-500 mb-4">Analysis from the Product Report shows that 'Bikes' generate the highest revenue, driving inventory and marketing decisions.</p>
                     <div class="chart-container" style="height: 300px;">
                         <canvas id="productCategoryChart"></canvas>
@@ -235,19 +259,17 @@
             <h2 class="text-3xl font-bold section-header pl-4 mb-6">SQL Project Code Explorer</h2>
             <div class="bg-white rounded-lg shadow-md">
                 <!-- Tabs -->
-                <div class="flex border-b border-gray-200">
+                <div class="flex border-b border-gray-200 flex-wrap">
                     <button id="tab-schema" onclick="showTab('schema')" class="tab-button active px-6 py-3 text-sm">Create Schema</button>
+                    <button id="tab-eda" onclick="showTab('eda')" class="tab-button px-6 py-3 text-sm">EDA</button>
+                    <button id="tab-advance" onclick="showTab('advance')" class="tab-button px-6 py-3 text-sm">Advanced Analysis</button>
                     <button id="tab-customer" onclick="showTab('customer')" class="tab-button px-6 py-3 text-sm">Customer Report</button>
                     <button id="tab-product" onclick="showTab('product')" class="tab-button px-6 py-3 text-sm">Product Report</button>
-                    <button id="tab-advance" onclick="showTab('advance')" class="tab-button px-6 py-3 text-sm">Advanced Analysis</button>
                 </div>
                 
                 <!-- Tab Content -->
                 <div id="content-schema" class="p-6">
-                    <div class="flex justify-between items-start mb-3">
-                        <p class="text-gray-600 max-w-prose">Database initialization, defining **Star Schema** with dimension (`dim_customers`, `dim_products`) and fact (`fact_sales`) tables, including foreign key constraints.</p>
-                        <button onclick="explainQuery(this)" class="bg-gray-700 hover:bg-gray-600 text-white text-xs font-bold py-2 px-3 rounded-lg transition whitespace-nowrap ml-4 shrink-0">✨ Explain this Query</button>
-                    </div>
+                    <p class="text-gray-600 mb-3">Database initialization, defining **Star Schema** with dimension (`dim_customers`, `dim_products`) and fact (`fact_sales`) tables, including foreign key constraints.</p>
                     <pre class="code-block">
 CREATE DATABASE DataWarehouseAnalytics;
 USE DataWarehouseAnalytics;
@@ -280,12 +302,96 @@ CREATE TABLE fact_sales(
 );
                     </pre>
                 </div>
+                
+                <div id="content-eda" class="p-6 hidden">
+                    <p class="text-gray-600 mb-3">**Exploratory Data Analysis (EDA)** to understand the dataset's structure, scope, and distribution before deep-dive analysis. This involves checking data ranges, unique categories, and basic counts.</p>
+                    <pre class="code-block">
+/* 1. Database & Table Exploration */
+USE datawarehouseanalytics;
+SHOW tables;
+
+/* 2. Dimension Exploration: Understand unique categories */
+
+-- Explore all the countries our customers come from
+SELECT DISTINCT country FROM dim_customers;
+
+-- Explore all product categories and subcategories
+SELECT DISTINCT category, subcategory FROM dim_products ORDER BY category, subcategory;
+
+/* 3. Date Exploration: Understand the time scope of the data */
+
+-- Find the date of the first and last order
+SELECT 
+    MIN(order_date) AS first_order_date,
+    MAX(order_date) AS last_order_date
+FROM fact_sales;
+
+-- How many years of order data are available?
+SELECT 
+    DATEDIFF(MAX(order_date), MIN(order_date)) / 365 AS order_range_years
+FROM fact_sales;
+    
+/* 4. Fact Table Sanity Checks */
+
+-- Total number of customers and products
+SELECT 
+    COUNT(DISTINCT customer_key) AS total_customers,
+    COUNT(DISTINCT product_key) AS total_products
+FROM fact_sales;
+
+/* 5. Initial Performance Questions */
+
+-- What are the 5 top-performing products in terms of sales?
+SELECT
+    p.product_name,
+    SUM(f.sales_amount) AS total_revenue
+FROM fact_sales f
+LEFT JOIN dim_products p ON p.product_key = f.product_key
+GROUP BY p.product_name
+ORDER BY total_revenue DESC
+LIMIT 5;
+
+-- Find the top 10 customers who have generated the highest revenue
+SELECT 
+    c.customer_key,
+    SUM(f.sales_amount) AS total_revenue
+FROM fact_sales f 
+LEFT JOIN dim_customers c ON c.customer_key = f.customer_key
+GROUP BY c.customer_key
+ORDER BY total_revenue DESC
+LIMIT 10;
+                    </pre>
+                </div>
+
+                <div id="content-advance" class="p-6 hidden">
+                    <p class="text-gray-600 mb-3">Example of **Window Functions (SUM() OVER)** and **CTEs** used for cumulative analysis, showing running totals and moving averages to evaluate business growth velocity.</p>
+                    <pre class="code-block">
+WITH monthly_sales AS (
+    SELECT
+        YEAR(order_date) AS order_year,
+        MONTH(order_date) AS order_month,
+        SUM(sales_amount) AS total_sales
+    FROM fact_sales
+    GROUP BY 1, 2
+)
+SELECT 
+    order_year,
+    order_month,
+    total_sales,
+    -- Calculate the running total of sales over time
+    SUM(total_sales) OVER (ORDER BY order_year, order_month) AS running_total_sales,
+    -- Calculate the 3-month moving average of sales
+    AVG(total_sales) OVER (
+        ORDER BY order_year, order_month
+        ROWS BETWEEN 2 PRECEDING AND CURRENT ROW
+    ) AS moving_avg_sales
+FROM monthly_sales
+ORDER BY order_year, order_month;
+                    </pre>
+                </div>
 
                 <div id="content-customer" class="p-6 hidden">
-                    <div class="flex justify-between items-start mb-3">
-                        <p class="text-gray-600 max-w-prose">Comprehensive query to segment customers into **VIP, Regular, and New** using a CASE statement, and calculate key metrics like Average Order Value and lifespan (used to create the `report_customers` view).</p>
-                        <button onclick="explainQuery(this)" class="bg-gray-700 hover:bg-gray-600 text-white text-xs font-bold py-2 px-3 rounded-lg transition whitespace-nowrap ml-4 shrink-0">✨ Explain this Query</button>
-                    </div>
+                    <p class="text-gray-600 mb-3">Comprehensive query to segment customers into **VIP, Regular, and New** using a CASE statement, and calculate key metrics like Average Order Value and lifespan (used to create the `report_customers` view).</p>
                     <pre class="code-block">
 CREATE VIEW report_customers AS
 WITH base_query AS (
@@ -317,10 +423,7 @@ FROM customer_aggregation ca;
                 </div>
                 
                 <div id="content-product" class="p-6 hidden">
-                    <div class="flex justify-between items-start mb-3">
-                        <p class="text-gray-600 max-w-prose">Logic to classify products into **High-Performer, Mid-Range, or Low-Performer** based on `total_sales` and calculate metrics like average monthly revenue (used to create the `product_report` view).</p>
-                        <button onclick="explainQuery(this)" class="bg-gray-700 hover:bg-gray-600 text-white text-xs font-bold py-2 px-3 rounded-lg transition whitespace-nowrap ml-4 shrink-0">✨ Explain this Query</button>
-                    </div>
+                    <p class="text-gray-600 mb-3">Logic to classify products into **High-Performer, Mid-Range, or Low-Performer** based on `total_sales` and calculate metrics like average monthly revenue (used to create the `product_report` view).</p>
                     <pre class="code-block">
 CREATE VIEW product_report AS
 WITH base_query AS (
@@ -352,86 +455,61 @@ FROM product_aggregations pa;
                     </pre>
                 </div>
 
-                <div id="content-advance" class="p-6 hidden">
-                    <div class="flex justify-between items-start mb-3">
-                        <p class="text-gray-600 max-w-prose">Example of **Window Functions (SUM() OVER)** and **CTEs** used for cumulative analysis, showing running totals and moving averages to evaluate business growth velocity.</p>
-                        <button onclick="explainQuery(this)" class="bg-gray-700 hover:bg-gray-600 text-white text-xs font-bold py-2 px-3 rounded-lg transition whitespace-nowrap ml-4 shrink-0">✨ Explain this Query</button>
-                    </div>
-                    <pre class="code-block">
-WITH monthly_sales AS (
-    SELECT
-        YEAR(order_date) AS order_year,
-        MONTH(order_date) AS order_month,
-        SUM(sales_amount) AS total_sales,
-        AVG(price) AS avg_price
-    FROM fact_sales
-    GROUP BY 1, 2
-)
-SELECT 
-    order_year,
-    order_month,
-    total_sales,
-    -- Calculate the running total of sales over time
-    SUM(total_sales) OVER (ORDER BY order_year, order_month) AS running_total_sales,
-    -- Calculate the 3-month moving average of sales
-    AVG(total_sales) OVER (
-        ORDER BY order_year, order_month
-        ROWS BETWEEN 2 PRECEDING AND CURRENT ROW
-    ) AS moving_avg_sales
-FROM monthly_sales
-ORDER BY order_year, order_month;
-                    </pre>
-                </div>
             </div>
         </section>
 
     </div>
-
-    <footer class="text-center py-6 border-t mt-8 text-gray-500 text-sm">
-        <p>Portfolio built using HTML, Tailwind CSS, and Chart.js. Enhanced with AI features powered by the Gemini API.</p>
-    </footer>
-
-    <!-- Gemini AI Modal -->
-    <div id="ai-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
-        <div class="bg-white rounded-lg shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col">
-            <div class="flex justify-between items-center p-4 border-b">
-                <h3 id="modal-title" class="text-xl font-semibold text-primary-blue">AI-Powered Response</h3>
-                <button onclick="closeModal()" class="text-gray-500 hover:text-gray-800 text-2xl">&times;</button>
+    
+    <!-- Insight Modal -->
+    <div id="insight-modal-overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4 z-50">
+        <div id="insight-modal-content" class="bg-white rounded-lg shadow-2xl p-6 w-full max-w-lg transform scale-95">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-2xl font-bold text-primary-blue flex items-center gap-2">
+                    <i class="fas fa-lightbulb"></i>
+                    Power Insight
+                </h3>
+                <button id="modal-close-button" class="text-gray-500 hover:text-gray-800 text-2xl">&times;</button>
             </div>
-            <div class="p-6 overflow-y-auto">
-                <!-- Loading Spinner -->
-                <div id="modal-loader" class="text-center py-8">
-                    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-blue mx-auto"></div>
-                    <p class="mt-4 text-gray-600">Generating response...</p>
-                </div>
-                <!-- AI Response Content -->
-                <div id="modal-response"></div>
-            </div>
+            <p id="modal-text" class="text-gray-700"></p>
         </div>
     </div>
 
 
+    <footer class="text-center py-6 border-t mt-8 text-gray-500 text-sm">
+        <p>Portfolio built using HTML, Tailwind CSS, and Chart.js to visualize Advanced SQL Business Intelligence concepts.</p>
+    </footer>
+
     <script>
         // --- Dashboard Initialization and Data ---
         
-        // Mock data based on project context
         const MOCK_DATA = {
-            monthlyRevenue: [720, 780, 850, 910, 880, 950, 1020, 1100, 1050, 1150, 1200, 1300], // in thousands
+            // 2024: Strong Q1, steady growth, strong holiday finish.
+            '2024': [820, 850, 920, 940, 930, 980, 1050, 1120, 1100, 1200, 1280, 1400],
+            // 2023: Good start, slight summer dip, strong Q4 recovery.
+            '2023': [700, 740, 790, 810, 780, 760, 830, 900, 940, 1020, 1100, 1180],
+            // 2022: Slower initial growth, accelerating significantly in the second half.
+            '2022': [500, 520, 540, 580, 610, 650, 720, 800, 850, 910, 950, 1020],
             customerSegments: [
                 { name: 'VIP (High Value)', count: 20 },
                 { name: 'Regular', count: 60 },
                 { name: 'New (First Year)', count: 20 }
             ],
             productCategories: [
-                { category: 'Bikes', revenue: 6500 }, // in thousands
+                { category: 'Bikes', revenue: 6500 },
                 { category: 'Accessories', revenue: 3500 },
                 { category: 'Clothing', revenue: 2000 }
             ]
         };
+        
+        const POWER_INSIGHTS = {
+            revenue: "The year-over-year growth trend is consistently positive, with a noticeable acceleration in Q4 for each year. This suggests strong seasonal sales, likely driven by holiday promotions, and indicates an effective growth strategy.",
+            customer: "The 'VIP' segment, though representing only 20% of the customer base, drives a disproportionately high amount of revenue. This highlights the importance of targeted retention marketing and loyalty programs for this high-value group.",
+            product: "The 'Bikes' category is the primary revenue driver by a significant margin. This data strongly suggests prioritizing inventory for this category and potentially exploring cross-selling opportunities with high-margin 'Accessories' to maximize profit."
+        };
 
         const segmentColors = ['#0077B6', '#00B4D8', '#90E0EF'];
+        let revenueChartInstance = null;
         
-        // Function to handle chart label wrapping (16 character limit)
         const wrapLabel = (label) => {
             if (label.length <= 16) return label;
             const words = label.split(' ');
@@ -463,27 +541,27 @@ ORDER BY order_year, order_month;
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
-                tooltip: {
-                    callbacks: {
-                        title: tooltipTitleCallback
-                    }
-                }
+                tooltip: { callbacks: { title: tooltipTitleCallback } }
             }
         };
 
         // 1. Revenue Trend Chart (Line)
-        const renderRevenueTrendChart = () => {
+        const renderRevenueTrendChart = (year) => {
+            if (revenueChartInstance) {
+                revenueChartInstance.destroy();
+            }
             const ctx = document.getElementById('revenueTrendChart').getContext('2d');
             const monthLabels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-            new Chart(ctx, {
+            
+            revenueChartInstance = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: monthLabels,
                     datasets: [{
-                        label: 'Total Revenue (in Thousands)',
-                        data: MOCK_DATA.monthlyRevenue,
+                        label: `Total Revenue in ${year} (in Thousands)`,
+                        data: MOCK_DATA[year],
                         borderColor: segmentColors[0],
-                        backgroundColor: segmentColors[0] + '40', // light fill
+                        backgroundColor: segmentColors[0] + '40',
                         fill: true,
                         tension: 0.4
                     }]
@@ -497,15 +575,12 @@ ORDER BY order_year, order_month;
                             ticks: { callback: (value) => '$' + value }
                         }
                     },
-                    plugins: {
-                        ...commonOptions.plugins,
-                        legend: { position: 'top' }
-                    }
+                    plugins: { ...commonOptions.plugins, legend: { position: 'top' } }
                 }
             });
         };
 
-        // 2. Customer Segmentation Chart (Bar - to show comparison)
+        // 2. Customer Segmentation Chart (Bar)
         const renderCustomerSegmentChart = () => {
             const ctx = document.getElementById('customerSegmentChart').getContext('2d');
             new Chart(ctx, {
@@ -520,20 +595,7 @@ ORDER BY order_year, order_month;
                         borderWidth: 2
                     }]
                 },
-                options: {
-                    ...commonOptions,
-                    indexAxis: 'y',
-                    scales: {
-                        x: {
-                            title: { display: true, text: 'Percentage of Total Customers' },
-                            max: 100
-                        }
-                    },
-                    plugins: {
-                        ...commonOptions.plugins,
-                        legend: { display: false }
-                    }
-                }
+                options: { ...commonOptions, indexAxis: 'y', scales: { x: { title: { display: true, text: 'Percentage of Total Customers' }, max: 100 } }, plugins: { ...commonOptions.plugins, legend: { display: false } } }
             });
         };
 
@@ -550,29 +612,13 @@ ORDER BY order_year, order_month;
                         backgroundColor: [segmentColors[0], segmentColors[1], segmentColors[2]],
                     }]
                 },
-                options: {
-                    ...commonOptions,
-                    indexAxis: 'y',
-                    scales: {
-                        x: {
-                            beginAtZero: true,
-                            title: { display: true, text: 'Revenue (K)' },
-                            ticks: { callback: (value) => '$' + value + 'K' }
-                        }
-                    },
-                    plugins: {
-                        ...commonOptions.plugins,
-                        legend: { display: false }
-                    }
-                }
+                options: { ...commonOptions, indexAxis: 'y', scales: { x: { beginAtZero: true, title: { display: true, text: 'Revenue (K)' }, ticks: { callback: (value) => '$' + value + 'K' } } }, plugins: { ...commonOptions.plugins, legend: { display: false } } }
             });
         };
         
-        // --- Updated JavaScript function for Copy-to-Clipboard and Email redirect ---
         window.handleEmailClick = (event) => {
             const emailAddress = 'jayahir1595@outlook.com';
             const messageElement = document.getElementById('copy-message');
-
             const tempInput = document.createElement('input');
             tempInput.value = emailAddress;
             document.body.appendChild(tempInput);
@@ -582,12 +628,10 @@ ORDER BY order_year, order_month;
                 document.execCommand('copy');
                 messageElement.style.visibility = 'visible';
                 messageElement.style.opacity = '1';
-                
                 setTimeout(() => {
                     messageElement.style.opacity = '0';
                     setTimeout(() => messageElement.style.visibility = 'hidden', 300);
                 }, 1500);
-
             } catch (err) {
                 console.error('Could not copy text: ', err);
             } finally {
@@ -598,7 +642,7 @@ ORDER BY order_year, order_month;
 
         // --- Tab Logic ---
         window.showTab = (tabName) => {
-            const contents = ['schema', 'customer', 'product', 'advance'];
+            const contents = ['schema', 'eda', 'customer', 'product', 'advance'];
             contents.forEach(id => {
                 document.getElementById('content-' + id).classList.add('hidden');
                 document.getElementById('tab-' + id).classList.remove('active');
@@ -608,116 +652,64 @@ ORDER BY order_year, order_month;
             document.getElementById('tab-' + tabName).classList.add('active');
         };
 
-        // --- Gemini API Integration ---
-        const modal = document.getElementById('ai-modal');
-        const modalTitle = document.getElementById('modal-title');
-        const modalLoader = document.getElementById('modal-loader');
-        const modalResponse = document.getElementById('modal-response');
-
-        function showModal(title) {
-            modalTitle.textContent = title;
-            modal.classList.remove('hidden');
-            modalLoader.classList.remove('hidden');
-            modalResponse.innerHTML = ''; // Clear previous response
-        }
-
-        function closeModal() {
-            modal.classList.add('hidden');
-        }
-        
-        async function generateGeminiContent(userQuery, systemPrompt = "", retries = 3, delay = 1000) {
-            const apiKey = "" // This is intentionally left empty.
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
-            
-            const payload = { contents: [{ parts: [{ text: userQuery }] }] };
-            if (systemPrompt) {
-                payload.systemInstruction = { parts: [{ text: systemPrompt }] };
-            }
-
-            try {
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                if (!response.ok) {
-                    if (response.status === 429) { throw new Error('Rate limited'); }
-                    throw new Error(`API request failed with status ${response.status}: ${await response.text()}`);
-                }
-
-                const result = await response.json();
-                const candidate = result.candidates?.[0];
-
-                if (candidate && candidate.content?.parts?.[0]?.text) {
-                    return candidate.content.parts[0].text;
-                } else {
-                    console.error("Invalid response structure:", result);
-                    throw new Error("Invalid response structure from API.");
-                }
-
-            } catch (error) {
-                if (retries > 1) {
-                    await new Promise(resolve => setTimeout(resolve, delay));
-                    return generateGeminiContent(userQuery, systemPrompt, retries - 1, delay * 2); // Exponential backoff
-                } else {
-                    console.error("API call failed after multiple retries.", error);
-                    return "Sorry, I couldn't generate a response at this moment. Please try again later.";
-                }
-            }
-        }
-
-        function displayResponse(responseText) {
-            let html = responseText
-                .replace(/### (.*$)/gim, '<h3>$1</h3>')
-                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                .replace(/^\* (.*$)/gim, '<li>$1</li>')
-                .replace(/^\d+\. (.*$)/gim, '<li>$1</li>')
-                .replace(/`([^`]+)`/g, '<code>$1</code>')
-                .replace(/\n/g, '<br>');
-
-            html = html.replace(/(<br>)*(<li>.*?<\/li>)/g, '$2');
-            html = html.replace(/(<li>.*?<\/li>)+/gs, (match) => `<ul>${match}</ul>`).replace(/<\/ul>\s*<br\s*\/?>\s*<ul>/gs, '');
-
-            modalLoader.classList.add('hidden');
-            modalResponse.innerHTML = html;
-        }
-
-        async function getDashboardInsights() {
-            showModal('✨ AI-Powered Insights');
-            const dashboardContext = `
-                - Total Revenue: $12.5M
-                - YOY Growth: +20.5%
-                - Total Customers: 18,450
-                - AOV: $2,210
-                - Top Product Category: 'Bikes'
-                - Customer Segmentation: 20% VIPs, 60% Regulars, 20% New.
-            `;
-            const systemPrompt = "You are a world-class business strategist and data analyst. Provide concise, actionable advice based on dashboard metrics. Use a professional but encouraging tone. Format your response using markdown with headers and bullet points.";
-            const userQuery = `Based on the following summary, provide: 1. Three key, actionable insights. 2. Two potential risks. 3. Three concrete next steps for the analysis team. ${dashboardContext}`;
-            const response = await generateGeminiContent(userQuery, systemPrompt);
-            displayResponse(response);
-        }
-
-        async function explainQuery(buttonElement) {
-            const queryContainer = buttonElement.closest('div').nextElementSibling;
-            const sqlCode = queryContainer.textContent.trim();
-            showModal('✨ AI-Powered SQL Explanation');
-            const systemPrompt = "You are an expert SQL developer who excels at explaining complex queries in simple terms for a junior analyst. Structure your explanation with 'Purpose', 'Key Components', and 'Output' headings.";
-            const userQuery = `Explain this SQL query: \`\`\`sql\n${sqlCode}\n\`\`\``;
-            const response = await generateGeminiContent(userQuery, systemPrompt);
-            displayResponse(response);
-        }
-
-
         // --- Initialize App ---
         document.addEventListener('DOMContentLoaded', () => {
-            renderRevenueTrendChart();
             renderCustomerSegmentChart();
             renderProductCategoryChart();
 
+            // Setup Year Filter
+            const yearFilterContainer = document.getElementById('year-filter');
+            const years = Object.keys(MOCK_DATA).filter(k => !isNaN(k));
+            const latestYear = Math.max(...years.map(Number)).toString();
+
+            years.reverse().forEach(year => {
+                const button = document.createElement('button');
+                button.textContent = year;
+                button.className = 'year-filter-button px-4 py-1.5 text-sm';
+                if (year === latestYear) button.classList.add('active');
+                button.onclick = () => {
+                    document.querySelectorAll('.year-filter-button').forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    renderRevenueTrendChart(year);
+                };
+                yearFilterContainer.appendChild(button);
+            });
+            renderRevenueTrendChart(latestYear);
+            
+            // Setup Modal Logic
+            const modalOverlay = document.getElementById('insight-modal-overlay');
+            const modalContent = document.getElementById('insight-modal-content');
+            const modalText = document.getElementById('modal-text');
+            const closeButton = document.getElementById('modal-close-button');
+            
+            document.querySelectorAll('.insight-button').forEach(button => {
+                button.addEventListener('click', () => {
+                    const insightKey = button.dataset.insight;
+                    modalText.textContent = POWER_INSIGHTS[insightKey];
+                    modalOverlay.classList.remove('hidden');
+                    modalOverlay.classList.add('flex');
+                    setTimeout(() => {
+                        modalOverlay.classList.remove('opacity-0');
+                        modalContent.classList.remove('scale-95');
+                    }, 10);
+                });
+            });
+
+            const closeModal = () => {
+                modalOverlay.classList.add('opacity-0');
+                modalContent.classList.add('scale-95');
+                setTimeout(() => {
+                    modalOverlay.classList.add('hidden');
+                    modalOverlay.classList.remove('flex');
+                }, 300);
+            };
+
+            closeButton.addEventListener('click', closeModal);
+            modalOverlay.addEventListener('click', (e) => {
+                if (e.target === modalOverlay) closeModal();
+            });
+
             // --- Anti-Copying Measures ---
-            // Disable common copy/view-source keyboard shortcuts. Right-click is disabled in the body tag.
             document.addEventListener('keydown', event => {
                 if (event.ctrlKey && ['c', 'u', 's'].includes(event.key.toLowerCase())) {
                     event.preventDefault();
