@@ -108,7 +108,7 @@
             <p class="text-xl text-gray-600 mt-2">Data Analyst & Project Coordinator | BI & Process Improvement Specialist</p>
             <div class="mt-4 space-x-4 text-gray-500">
                 <a 
-                    href="mailto:jayahir1595@outlook.com?subject=Inquiry%20from%20Your%20Data%20Analysis%20Portfolio" 
+                    href="mailto:contact.jayahir@gmail.com?subject=Inquiry%20from%20Your%20Data%20Analysis%20Portfolio" 
                     onclick="handleEmailClick(event)" 
                     target="_blank"
                     class="hover:text-primary-blue transition relative group"
@@ -123,7 +123,7 @@
             </div>
         </header>
 
-        <!-- Key Projects & Technical Skills Section -->
+        <!-- Key Projects & Business Impact Section -->
         <section id="skills-projects" class="mb-12">
             <h2 class="text-3xl font-bold section-header pl-4 mb-6">Key Projects & Business Impact</h2>
             <div class="grid lg:grid-cols-3 gap-6">
@@ -183,22 +183,22 @@
             <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
                 <div class="card bg-white p-5 rounded-lg shadow-md text-center">
                     <i class="fas fa-dollar-sign text-3xl kpi-value mb-2"></i>
-                    <p class="text-3xl font-bold kpi-value">$12.5M</p>
+                    <p id="kpi-revenue" class="text-3xl font-bold kpi-value"></p>
                     <p class="text-sm text-gray-500">Total Revenue</p>
                 </div>
                 <div class="card bg-white p-5 rounded-lg shadow-md text-center">
                     <i class="fas fa-users text-3xl kpi-value mb-2"></i>
-                    <p class="text-3xl font-bold kpi-value">18,450</p>
+                    <p id="kpi-customers" class="text-3xl font-bold kpi-value"></p>
                     <p class="text-sm text-gray-500">Total Customers</p>
                 </div>
                 <div class="card bg-white p-5 rounded-lg shadow-md text-center">
                     <i class="fas fa-shopping-cart text-3xl kpi-value mb-2"></i>
-                    <p class="text-3xl font-bold kpi-value">$2,210</p>
+                    <p id="kpi-aov" class="text-3xl font-bold kpi-value"></p>
                     <p class="text-sm text-gray-500">Avg. Order Value (AOV)</p>
                 </div>
                 <div class="card bg-white p-5 rounded-lg shadow-md text-center">
                     <i class="fas fa-chart-line text-3xl kpi-value mb-2"></i>
-                    <p class="text-3xl font-bold kpi-value">+20.5%</p>
+                    <p id="kpi-growth" class="text-3xl font-bold kpi-value"></p>
                     <p class="text-sm text-gray-500">YOY Growth</p>
                 </div>
             </div>
@@ -483,12 +483,33 @@ FROM product_aggregations pa;
         // --- Dashboard Initialization and Data ---
         
         const MOCK_DATA = {
-            // 2024: Strong Q1, steady growth, strong holiday finish.
-            '2024': [820, 850, 920, 940, 930, 980, 1050, 1120, 1100, 1200, 1280, 1400],
-            // 2023: Good start, slight summer dip, strong Q4 recovery.
-            '2023': [700, 740, 790, 810, 780, 760, 830, 900, 940, 1020, 1100, 1180],
-            // 2022: Slower initial growth, accelerating significantly in the second half.
-            '2022': [500, 520, 540, 580, 610, 650, 720, 800, 850, 910, 950, 1020],
+            '2024': {
+                revenue: [820, 850, 920, 940, 930, 980, 1050, 1120, 1100, 1200, 1280, 1400],
+                kpis: {
+                    totalRevenue: '$12.5M',
+                    totalCustomers: '18,450',
+                    aov: '$2,210',
+                    yoyGrowth: '+20.5%'
+                }
+            },
+            '2023': {
+                revenue: [700, 740, 790, 810, 780, 760, 830, 900, 940, 1020, 1100, 1180],
+                kpis: {
+                    totalRevenue: '$10.4M',
+                    totalCustomers: '15,320',
+                    aov: '$2,150',
+                    yoyGrowth: '+18.2%'
+                }
+            },
+            '2022': {
+                revenue: [500, 520, 540, 580, 610, 650, 720, 800, 850, 910, 950, 1020],
+                kpis: {
+                    totalRevenue: '$8.1M',
+                    totalCustomers: '12,100',
+                    aov: '$1,980',
+                    yoyGrowth: '+15.7%'
+                }
+            },
             customerSegments: [
                 { name: 'VIP (High Value)', count: 20 },
                 { name: 'Regular', count: 60 },
@@ -545,7 +566,16 @@ FROM product_aggregations pa;
             }
         };
 
-        // 1. Revenue Trend Chart (Line)
+        // 1. KPI Update Function
+        const updateKPIs = (year) => {
+            const kpis = MOCK_DATA[year].kpis;
+            document.getElementById('kpi-revenue').textContent = kpis.totalRevenue;
+            document.getElementById('kpi-customers').textContent = kpis.totalCustomers;
+            document.getElementById('kpi-aov').textContent = kpis.aov;
+            document.getElementById('kpi-growth').textContent = kpis.yoyGrowth;
+        };
+
+        // 2. Revenue Trend Chart (Line)
         const renderRevenueTrendChart = (year) => {
             if (revenueChartInstance) {
                 revenueChartInstance.destroy();
@@ -559,7 +589,7 @@ FROM product_aggregations pa;
                     labels: monthLabels,
                     datasets: [{
                         label: `Total Revenue in ${year} (in Thousands)`,
-                        data: MOCK_DATA[year],
+                        data: MOCK_DATA[year].revenue,
                         borderColor: segmentColors[0],
                         backgroundColor: segmentColors[0] + '40',
                         fill: true,
@@ -580,7 +610,7 @@ FROM product_aggregations pa;
             });
         };
 
-        // 2. Customer Segmentation Chart (Bar)
+        // 3. Customer Segmentation Chart (Bar)
         const renderCustomerSegmentChart = () => {
             const ctx = document.getElementById('customerSegmentChart').getContext('2d');
             new Chart(ctx, {
@@ -599,7 +629,7 @@ FROM product_aggregations pa;
             });
         };
 
-        // 3. Product Category Chart (Horizontal Bar)
+        // 4. Product Category Chart (Horizontal Bar)
         const renderProductCategoryChart = () => {
             const ctx = document.getElementById('productCategoryChart').getContext('2d');
             new Chart(ctx, {
@@ -617,7 +647,7 @@ FROM product_aggregations pa;
         };
         
         window.handleEmailClick = (event) => {
-            const emailAddress = 'jayahir1595@outlook.com';
+            const emailAddress = 'contact.jayahir@gmail.com';
             const messageElement = document.getElementById('copy-message');
             const tempInput = document.createElement('input');
             tempInput.value = emailAddress;
@@ -670,10 +700,13 @@ FROM product_aggregations pa;
                 button.onclick = () => {
                     document.querySelectorAll('.year-filter-button').forEach(btn => btn.classList.remove('active'));
                     button.classList.add('active');
+                    updateKPIs(year);
                     renderRevenueTrendChart(year);
                 };
                 yearFilterContainer.appendChild(button);
             });
+            // Initial Load
+            updateKPIs(latestYear);
             renderRevenueTrendChart(latestYear);
             
             // Setup Modal Logic
@@ -719,5 +752,4 @@ FROM product_aggregations pa;
     </script>
 </body>
 </html>
-
 
